@@ -42,7 +42,6 @@ __metadata:
     fs-readdir-recursive: ^1.1.0
     glob: ^7.0.0
     lodash: ^4.17.19
-    make-dir: ^2.1.0
     rimraf: ^3.0.0
     slash: ^2.0.0
     source-map: ^0.5.0
@@ -876,8 +875,6 @@ __metadata:
     core-js: ^3.2.1
     fs-readdir-recursive: ^1.0.0
     lodash: ^4.17.19
-    make-dir: ^2.1.0
-    node-environment-flags: ^1.0.5
     regenerator-runtime: ^0.13.4
     resolve: ^1.13.1
     rimraf: ^3.0.0
@@ -3126,7 +3123,6 @@ __metadata:
     default-require-extensions: ^2.0.0
     find-cache-dir: ^2.0.0
     lodash: ^4.17.19
-    make-dir: ^2.1.0
     pirates: ^4.0.0
     source-map-support: ^0.5.16
   peerDependencies:
@@ -12140,16 +12136,6 @@ fsevents@~2.1.2:
   version: 1.0.5
   resolution: "nice-try@npm:1.0.5"
   checksum: 330f190bf68146a560008b661e1ddbb2eac667c16990b6bf791516d89cceb707ec67901ad647d2b32674bfa816b916489cead5c2fb6e96864c659573ab5aa3bb
-  languageName: node
-  linkType: hard
-
-"node-environment-flags@npm:^1.0.5":
-  version: 1.0.6
-  resolution: "node-environment-flags@npm:1.0.6"
-  dependencies:
-    object.getownpropertydescriptors: ^2.0.3
-    semver: ^5.7.0
-  checksum: 1f6d1e636d5bb0caae32cd39b87b61ff1fa101d66db1ccb1417c8cb8df72089d10b0b5150bf10700c5f8a58f4f4ce7f64b1cf17392a3639b597e5fe9ea0dfcc0
   languageName: node
   linkType: hard
 
