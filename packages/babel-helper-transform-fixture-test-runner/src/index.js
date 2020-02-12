@@ -8,7 +8,6 @@ import defaults from "lodash/defaults";
 import escapeRegExp from "lodash/escapeRegExp";
 import * as helpers from "./helpers";
 import merge from "lodash/merge";
-import resolve from "resolve";
 import assert from "assert";
 import fs from "fs";
 import path from "path";
@@ -108,8 +107,8 @@ function runModuleInTestContext(
   context: Context,
   moduleCache: Object,
 ) {
-  const filename = resolve.sync(id, {
-    basedir: path.dirname(relativeFilename),
+  const filename = require.resolve(id, {
+    paths: [path.dirname(relativeFilename)],
   });
 
   // Expose Node-internal modules if the tests want them. Note, this will not execute inside

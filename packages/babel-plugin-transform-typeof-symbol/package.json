@@ -26,7 +26,6 @@
     "@babel/helper-plugin-test-runner": "workspace:^7.10.4",
     "@babel/runtime": "workspace:^7.10.4",
     "@babel/runtime-corejs2": "workspace:^7.10.4",
-    "@babel/runtime-corejs3": "workspace:^7.10.4",
-    "resolve": "^1.15.0"
+    "@babel/runtime-corejs3": "workspace:^7.10.4"
   }
 }
