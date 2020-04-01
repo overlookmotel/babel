@@ -2,7 +2,6 @@
 
 const path = require("path");
 const fs = require("fs");
-const makeDirSync = require("make-dir").sync;
 const helpers = require("@babel/helpers");
 const babel = require("@babel/core");
 const template = require("@babel/template");
@@ -13,11 +12,10 @@ const transformRuntime = require("../");
 const runtimeVersion = require("@babel/runtime/package.json").version;
 const corejs2Definitions = require("../lib/runtime-corejs2-definitions").default();
 const corejs3Definitions = require("../lib/runtime-corejs3-definitions").default();
-
-function outputFile(filePath, data) {
-  makeDirSync(path.dirname(filePath));
+const outputFileSync = function (filePath, data) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, data);
-}
+};
 
 writeHelpers("@babel/runtime");
 writeHelpers("@babel/runtime-corejs2", { corejs: 2 });
@@ -85,7 +83,7 @@ function writeCoreJS({
 
   const runtimeRoot = proposals ? "core-js" : "core-js-stable";
   paths.forEach(function (corejsPath) {
-    outputFile(
+    outputFileSync(
       path.join(pkgDirname, runtimeRoot, `${corejsPath}.js`),
       `module.exports = require("${corejsRoot}/${corejsPath}");`
     );
@@ -108,7 +106,7 @@ function writeHelperFiles(runtimeName, { esm, corejs }) {
       `${helperName}.js`
     );
 
-    outputFile(
+    outputFileSync(
       helperFilename,
       buildHelper(runtimeName, pkgDirname, helperFilename, helperName, {
         esm,
