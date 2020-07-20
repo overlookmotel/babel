@@ -5,7 +5,7 @@ import getFixtures from "@babel/helper-fixtures";
 import sourceMap from "source-map";
 import { codeFrameColumns } from "@babel/code-frame";
 import defaults from "lodash/defaults";
-import escapeRegExp from "lodash/escapeRegExp";
+import escapeRegExp from "escape-string-regexp";
 import * as helpers from "./helpers";
 import merge from "lodash/merge";
 import assert from "assert";
