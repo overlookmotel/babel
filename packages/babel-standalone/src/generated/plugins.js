@@ -15,7 +15,7 @@ import syntaxFunctionBind from "@babel/plugin-syntax-function-bind";
 import syntaxFunctionSent from "@babel/plugin-syntax-function-sent";
 import syntaxImportMeta from "@babel/plugin-syntax-import-meta";
 import syntaxJsx from "@babel/plugin-syntax-jsx";
-import syntaxModuleAttributes from "@babel/plugin-syntax-module-attributes";
+import syntaxModuleAttributes from "@babel/plugin-syntax-import-assertions";
 import syntaxObjectRestSpread from "@babel/plugin-syntax-object-rest-spread";
 import syntaxOptionalCatchBinding from "@babel/plugin-syntax-optional-catch-binding";
 import syntaxPipelineOperator from "@babel/plugin-syntax-pipeline-operator";

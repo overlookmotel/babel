@@ -115,7 +115,7 @@ export type ParserPlugin =
     'importMeta' |
     'jsx' |
     'logicalAssignment' |
-    'moduleAttributes' |
+    'importAssertions' |
     'nullishCoalescingOperator' |
     'numericSeparator' |
     'objectRestSpread' |

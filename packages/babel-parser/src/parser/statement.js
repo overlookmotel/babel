@@ -2075,7 +2075,7 @@ export default class StatementParser extends ExpressionParser {
     node.source = this.parseImportSource();
     // https://github.com/tc39/proposal-module-attributes
     // parse module attributes if the next token is `with` or ignore and finish the ImportDeclaration node.
-    const attributes = this.maybeParseModuleAttributes();
+    const attributes = this.maybeParseImportAssertions();
     if (attributes) {
       node.attributes = attributes;
     }
@@ -2109,45 +2109,24 @@ export default class StatementParser extends ExpressionParser {
     node.specifiers.push(this.finishNode(specifier, type));
   }
 
-  maybeParseModuleAttributes() {
-    if (this.match(tt._with) && !this.hasPrecedingLineBreak()) {
-      this.expectPlugin("moduleAttributes");
-      this.next();
-    } else {
-      if (this.hasPlugin("moduleAttributes")) return [];
-      return null;
-    }
+  parseAssertEntries() {
+    this.expectPlugin("importAssertions");
+
     const attrs = [];
-    const attributes = new Set();
+
     do {
-      // we are trying to parse a node which has the following syntax
-      // with type: "json"
-      // [with -> keyword], [type -> Identifier], [":" -> token for colon], ["json" -> StringLiteral]
       const node = this.startNode();
-      node.key = this.parseIdentifier(true);
 
-      // for now we are only allowing `type` as the only allowed module attribute
-      if (node.key.name !== "type") {
-        this.raise(
-          node.key.start,
-          Errors.ModuleAttributeDifferentFromType,
-          node.key.name,
-        );
+      // parse AssertionKey : IdentifierName, StringLiteral
+      let assertionKeyNode;
+      if (this.match(tt.string)) {
+        assertionKeyNode = this.parseLiteral(this.state.value, "StringLiteral");
+      } else {
+        assertionKeyNode = this.parseIdentifier();
       }
+      this.next();
+      node.key = assertionKeyNode;
 
-      // check if we already have an entry for an attribute
-      // if a duplicate entry is found, throw an error
-      // for now this logic will come into play only when someone declares `type` twice
-      if (attributes.has(node.key.name)) {
-        this.raise(
-          node.key.start,
-          Errors.ModuleAttributesWithDuplicateKeys,
-          node.key.name,
-        );
-      }
-      attributes.add(node.key.name);
-      this.expect(tt.colon);
-      // check if the value set to the module attribute is a string as we only allow string literals
       if (!this.match(tt.string)) {
         throw this.unexpected(
           this.state.start,
@@ -2155,9 +2134,29 @@ export default class StatementParser extends ExpressionParser {
         );
       }
       node.value = this.parseLiteral(this.state.value, "StringLiteral");
-      this.finishNode(node, "ImportAttribute");
+      this.finishNode(node, "ImportAssertion");
       attrs.push(node);
     } while (this.eat(tt.comma));
+
+    return attrs;
+  }
+
+  maybeParseImportAssertions() {
+    if (
+      this.match(tt.name) &&
+      this.state.value === "assert" &&
+      !this.hasPrecedingLineBreak()
+    ) {
+      this.expectPlugin("importAssertions");
+      this.next();
+    } else {
+      if (this.hasPlugin("importAssertions")) return [];
+      return null;
+    }
+
+    this.eat(tt.braceL);
+    const attrs = this.parseAssertEntries();
+    this.eat(tt.braceR);
 
     return attrs;
   }
